@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>🔧 Arduino Simulator Links</title>
+  <style>
+    :root {
+      --primary: #00979d;
+      --primary-dark: #007780;
+      --bg: #f8fafc;
+      --card-bg: #ffffff;
+      --text: #1e293b;
+      --text-secondary: #64748b;
+      --shadow: 0 4px 6px -1px rgba(0,0,0,0.1), 0 2px 4px -1px rgba(0,0,0,0.06);
+      --shadow-hover: 0 10px 15px -3px rgba(0,0,0,0.1), 0 4px 6px -2px rgba(0,0,0,0.05);
+      --radius: 12px;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      padding: 2rem 1rem;
+    }
+
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+    }
+
+    header {
+      text-align: center;
+      padding: 2rem 0 3rem;
+    }
+
+    header h1 {
+      font-size: 2rem;
+      font-weight: 700;
+      color: var(--primary);
+      margin-bottom: 0.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+    }
+
+    header p {
+      color: var(--text-secondary);
+      font-size: 1.1rem;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1rem;
+    }
+
+    .card {
+      background: var(--card-bg);
+      border-radius: var(--radius);
+      padding: 1.25rem 1.5rem;
+      box-shadow: var(--shadow);
+      transition: all 0.2s ease;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      text-decoration: none;
+      color: var(--text);
+      border: 2px solid transparent;
+    }
+
+    .card:hover {
+      transform: translateY(-3px);
+      box-shadow: var(--shadow-hover);
+      border-color: var(--primary);
+    }
+
+    .card-icon {
+      width: 48px;
+      height: 48px;
+      background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.4rem;
+      flex-shrink: 0;
+      color: white;
+    }
+
+    .card-content {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .card-title {
+      font-weight: 600;
+      font-size: 1.1rem;
+      margin-bottom: 0.25rem;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .card-subtitle {
+      font-size: 0.875rem;
+      color: var(--text-secondary);
+    }
+
+    .card-arrow {
+      color: var(--primary);
+      font-size: 1.2rem;
+      opacity: 0.7;
+      transition: opacity 0.2s;
+    }
+
+    .card:hover .card-arrow {
+      opacity: 1;
+    }
+
+    footer {
+      text-align: center;
+      padding: 2rem 0 1rem;
+      color: var(--text-secondary);
+      font-size: 0.9rem;
+    }
+
+    footer a {
+      color: var(--primary);
+      text-decoration: none;
+    }
+
+    footer a:hover {
+      text-decoration: underline;
+    }
+
+    @media (max-width: 600px) {
+      header h1 {
+        font-size: 1.5rem;
+      }
+      header p {
+        font-size: 1rem;
+      }
+      .card {
+        padding: 1rem 1.25rem;
+      }
+      .card-icon {
+        width: 40px;
+        height: 40px;
+        font-size: 1.2rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>🔧 Arduino Simulator</h1>
+      <p>Klik kartu untuk membuka simulasi di tab baru</p>
+    </header>
+
+    <div class="grid">
+      <a href="https://wokwi.com/projects/458251788683018241" target="_blank" rel="noopener noreferrer" class="card">
+        <div class="card-icon">💡</div>
+        <div class="card-content">
+          <div class="card-title">LED 1</div>
+          <div class="card-subtitle">Simulasi dasar LED</div>
+        </div>
+        <span class="card-arrow">↗</span>
+      </a>
+
+      <a href="https://wokwi.com/projects/458251481241525249" target="_blank" rel="noopener noreferrer" class="card">
+        <div class="card-icon">💡</div>
+        <div class="card-content">
+          <div class="card-title">LED 2</div>
+          <div class="card-subtitle">Simulasi LED variasi</div>
+        </div>
+        <span class="card-arrow">↗</span>
+      </a>
+
+      <a href="https://wokwi.com/projects/458265650566196225" target="_blank" rel="noopener noreferrer" class="card">
+        <div class="card-icon">🔊</div>
+        <div class="card-content">
+          <div class="card-title">Buzzer</div>
+          <div class="card-subtitle">Simulasi output suara</div>
+        </div>
+        <span class="card-arrow">↗</span>
+      </a>
+
+      <a href="https://wokwi.com/projects/457531792729369601" target="_blank" rel="noopener noreferrer" class="card">
+        <div class="card-icon">🔄</div>
+        <div class="card-content">
+          <div class="card-title">Servo</div>
+          <div class="card-subtitle">Kontrol sudut servo</div>
+        </div>
+        <span class="card-arrow">↗</span>
+      </a>
+
+      <a href="https://wokwi.com/projects/458265650566196225" target="_blank" rel="noopener noreferrer" class="card">
+        <div class="card-icon">🔘</div>
+        <div class="card-content">
+          <div class="card-title">Button LED</div>
+          <div class="card-subtitle">Input tombol → LED</div>
+        </div>
+        <span class="card-arrow">↗</span>
+      </a>
+
+      <a href="https://wokwi.com/projects/458252449903643649" target="_blank" rel="noopener noreferrer" class="card">
+        <div class="card-icon">🔘</div>
+        <div class="card-content">
+          <div class="card-title">Button Servo</div>
+          <div class="card-subtitle">Input tombol → Servo</div>
+        </div>
+        <span class="card-arrow">↗</span>
+      </a>
+
+      <a href="https://wokwi.com/projects/458251163627816961" target="_blank" rel="noopener noreferrer" class="card">
+        <div class="card-icon">☀️</div>
+        <div class="card-content">
+          <div class="card-title">LDR</div>
+          <div class="card-subtitle">Sensor cahaya</div>
+        </div>
+        <span class="card-arrow">↗</span>
+      </a>
+
+      <a href="https://wokwi.com/projects/457065244452964353" target="_blank" rel="noopener noreferrer" class="card">
+        <div class="card-icon">📏</div>
+        <div class="card-content">
+          <div class="card-title">Ultrasonik</div>
+          <div class="card-subtitle">Sensor jarak HC-SR04</div>
+        </div>
+        <span class="card-arrow">↗</span>
+      </a>
+
+      <a href="https://wokwi.com/projects/458254337888196609" target="_blank" rel="noopener noreferrer" class="card">
+        <div class="card-icon">🎚️</div>
+        <div class="card-content">
+          <div class="card-title">Potensio</div>
+          <div class="card-subtitle">Input analog variabel</div>
+        </div>
+        <span class="card-arrow">↗</span>
+      </a>
+
+      <a href="https://wokwi.com/projects/457056527948025857" target="_blank" rel="noopener noreferrer" class="card">
+        <div class="card-icon">🎚️</div>
+        <div class="card-content">
+          <div class="card-title">Potensio-Servo</div>
+          <div class="card-subtitle">Potensio kontrol servo</div>
+        </div>
+        <span class="card-arrow">↗</span>
+      </a>
+    </div>
+
+    <footer>
+      <p>Simulasi powered by <a href="https://wokwi.com" target="_blank" rel="noopener">Wokwi</a> • 
+      Cocok untuk pembelajaran STEM & mikrokontroler</p>
+    </footer>
+  </div>
+
+  <script>
+    // Tambahkan efek ripple saat klik (opsional, untuk UX lebih baik)
+    document.querySelectorAll('.card').forEach(card => {
+      card.addEventListener('click', function(e) {
+        // Biarkan link terbuka di tab baru, tapi beri feedback visual
+        this.style.transform = 'scale(0.98)';
+        setTimeout(() => {
+          this.style.transform = '';
+        }, 150);
+      });
+    });
+  </script>
+</body>
+</html>
