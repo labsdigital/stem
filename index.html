@@ -10,6 +10,8 @@
       --primary-dark: #007780;
       --accent: #7c3aed;
       --accent-dark: #6d28d9;
+      --files: #059669;
+      --files-dark: #047857;
       --bg: #f8fafc;
       --card-bg: #ffffff;
       --text: #1e293b;
@@ -64,6 +66,11 @@
       gap: 0.5rem;
     }
 
+    .section-title.files {
+      border-color: var(--files);
+      color: var(--files);
+    }
+
     .section-title.chatbot {
       border-color: var(--accent);
       color: var(--accent);
@@ -95,6 +102,14 @@
       border-color: var(--primary);
     }
 
+    .card.files {
+      border-left: 4px solid var(--files);
+    }
+
+    .card.files:hover {
+      border-color: var(--files);
+    }
+
     .card.chatbot {
       border-left: 4px solid var(--accent);
     }
@@ -114,6 +129,10 @@
       font-size: 1.4rem;
       flex-shrink: 0;
       color: white;
+    }
+
+    .card.files .card-icon {
+      background: linear-gradient(135deg, var(--files), var(--files-dark));
     }
 
     .card.chatbot .card-icon {
@@ -143,6 +162,7 @@
       transition: opacity 0.2s;
     }
 
+    .card.files .card-arrow { color: var(--files); }
     .card.chatbot .card-arrow { color: var(--accent); }
     .card:hover .card-arrow { opacity: 1; }
 
@@ -170,6 +190,28 @@
       <h1>LINK STEM - BBGTK DIY</h1>
       <p>Klik kartu untuk membuka di tab baru</p>
     </header>
+
+    <!-- 📂 Files Section -->
+    <h2 class="section-title files">📂 Files</h2>
+    <div class="grid">
+      <a href="https://kurikulum.kemendikdasmen.go.id/file/panduan/dokumen/8.%20Final%20Panduan%20Mata%20Pelajaran%20IPA_16_sep_2025_revisi%203.pdf" target="_blank" rel="noopener noreferrer" class="card files">
+        <div class="card-icon">📘</div>
+        <div class="card-content">
+          <div class="card-title">Panduan Mapel IPA SMP</div>
+          <div class="card-subtitle">Dokumen Panduan Kurikulum</div>
+        </div>
+        <span class="card-arrow">↗</span>
+      </a>
+
+      <a href="https://repositori.kemendikdasmen.go.id/33623/1/9.%20Final%20Panduan%20Mata%20Pelajaran%20Bilogi_18_Sep_2025_revisi%203.pdf" target="_blank" rel="noopener noreferrer" class="card files">
+        <div class="card-icon">📗</div>
+        <div class="card-content">
+          <div class="card-title">Panduan Mapel Biologi SMA</div>
+          <div class="card-subtitle">Dokumen Panduan Kurikulum</div>
+        </div>
+        <span class="card-arrow">↗</span>
+      </a>
+    </div>
 
     <!-- 🔧 Arduino Simulator Section -->
     <h2 class="section-title">🔧 Arduino Simulator</h2>
