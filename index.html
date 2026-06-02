@@ -3,11 +3,13 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>🔧 Arduino Simulator Links</title>
+  <title>🔧 Arduino Simulator & Chatbot</title>
   <style>
     :root {
       --primary: #00979d;
       --primary-dark: #007780;
+      --accent: #7c3aed;
+      --accent-dark: #6d28d9;
       --bg: #f8fafc;
       --card-bg: #ffffff;
       --text: #1e293b;
@@ -17,11 +19,7 @@
       --radius: 12px;
     }
 
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
 
     body {
       font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
@@ -31,10 +29,7 @@
       padding: 2rem 1rem;
     }
 
-    .container {
-      max-width: 900px;
-      margin: 0 auto;
-    }
+    .container { max-width: 900px; margin: 0 auto; }
 
     header {
       text-align: center;
@@ -55,6 +50,23 @@
     header p {
       color: var(--text-secondary);
       font-size: 1.1rem;
+    }
+
+    .section-title {
+      font-size: 1.3rem;
+      font-weight: 600;
+      color: var(--text);
+      margin: 2rem 0 1rem;
+      padding-bottom: 0.5rem;
+      border-bottom: 2px solid var(--primary);
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .section-title.chatbot {
+      border-color: var(--accent);
+      color: var(--accent);
     }
 
     .grid {
@@ -83,6 +95,14 @@
       border-color: var(--primary);
     }
 
+    .card.chatbot {
+      border-left: 4px solid var(--accent);
+    }
+
+    .card.chatbot:hover {
+      border-color: var(--accent);
+    }
+
     .card-icon {
       width: 48px;
       height: 48px;
@@ -96,10 +116,11 @@
       color: white;
     }
 
-    .card-content {
-      flex: 1;
-      min-width: 0;
+    .card.chatbot .card-icon {
+      background: linear-gradient(135deg, var(--accent), var(--accent-dark));
     }
+
+    .card-content { flex: 1; min-width: 0; }
 
     .card-title {
       font-weight: 600;
@@ -122,9 +143,8 @@
       transition: opacity 0.2s;
     }
 
-    .card:hover .card-arrow {
-      opacity: 1;
-    }
+    .card.chatbot .card-arrow { color: var(--accent); }
+    .card:hover .card-arrow { opacity: 1; }
 
     footer {
       text-align: center;
@@ -133,40 +153,26 @@
       font-size: 0.9rem;
     }
 
-    footer a {
-      color: var(--primary);
-      text-decoration: none;
-    }
-
-    footer a:hover {
-      text-decoration: underline;
-    }
+    footer a { color: var(--primary); text-decoration: none; }
+    footer a:hover { text-decoration: underline; }
 
     @media (max-width: 600px) {
-      header h1 {
-        font-size: 1.5rem;
-      }
-      header p {
-        font-size: 1rem;
-      }
-      .card {
-        padding: 1rem 1.25rem;
-      }
-      .card-icon {
-        width: 40px;
-        height: 40px;
-        font-size: 1.2rem;
-      }
+      header h1 { font-size: 1.5rem; }
+      header p { font-size: 1rem; }
+      .card { padding: 1rem 1.25rem; }
+      .card-icon { width: 40px; height: 40px; font-size: 1.2rem; }
     }
   </style>
 </head>
 <body>
   <div class="container">
     <header>
-      <h1>🔧 Arduino Simulator</h1>
-      <p>Klik kartu untuk membuka simulasi di tab baru</p>
+      <h1>🔧 Arduino Simulator & 🤖 Chatbot</h1>
+      <p>Klik kartu untuk membuka di tab baru</p>
     </header>
 
+    <!-- 🔧 Arduino Simulator Section -->
+    <h2 class="section-title">🔧 Arduino Simulator</h2>
     <div class="grid">
       <a href="https://wokwi.com/projects/458251788683018241" target="_blank" rel="noopener noreferrer" class="card">
         <div class="card-icon">💡</div>
@@ -259,21 +265,32 @@
       </a>
     </div>
 
+    <!-- 🤖 Chatbot Section -->
+    <h2 class="section-title chatbot">🤖 Chatbot</h2>
+    <div class="grid">
+      <a href="https://gemini.google.com/gem/1uwIDaX-QITDcBix6WZguWasGs6LHZ-We?usp=sharing" target="_blank" rel="noopener noreferrer" class="card chatbot">
+        <div class="card-icon">💬</div>
+        <div class="card-content">
+          <div class="card-title">Chatbot STEM</div>
+          <div class="card-subtitle">Asisten AI untuk belajar STEM</div>
+        </div>
+        <span class="card-arrow">↗</span>
+      </a>
+    </div>
+
     <footer>
       <p>Simulasi powered by <a href="https://wokwi.com" target="_blank" rel="noopener">Wokwi</a> • 
+      Chatbot powered by <a href="https://gemini.google.com" target="_blank" rel="noopener">Google Gemini</a> • 
       Cocok untuk pembelajaran STEM & mikrokontroler</p>
     </footer>
   </div>
 
   <script>
-    // Tambahkan efek ripple saat klik (opsional, untuk UX lebih baik)
+    // Efek ripple halus saat klik kartu
     document.querySelectorAll('.card').forEach(card => {
       card.addEventListener('click', function(e) {
-        // Biarkan link terbuka di tab baru, tapi beri feedback visual
         this.style.transform = 'scale(0.98)';
-        setTimeout(() => {
-          this.style.transform = '';
-        }, 150);
+        setTimeout(() => { this.style.transform = ''; }, 150);
       });
     });
   </script>
