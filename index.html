@@ -3,359 +3,330 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>🔧 Arduino Simulator & Chatbot</title>
+  <title>LINK STEM - BBGTK DIY</title>
   <style>
     :root {
-      --primary: #00979d;
-      --primary-dark: #007780;
-      --accent: #7c3aed;
-      --accent-dark: #6d28d9;
-      --files: #059669;
-      --files-dark: #047857;
-      --bg: #f8fafc;
+      --bg: #f5f5f7;
       --card-bg: #ffffff;
-      --text: #1e293b;
-      --text-secondary: #64748b;
-      --shadow: 0 4px 6px -1px rgba(0,0,0,0.1), 0 2px 4px -1px rgba(0,0,0,0.06);
-      --shadow-hover: 0 10px 15px -3px rgba(0,0,0,0.1), 0 4px 6px -2px rgba(0,0,0,0.05);
+      --border: #c7c7cc;
+      --border-hover: #0071e3;
+      --text: #1d1d1f;
+      --text-muted: #6e6e73;
+      --accent-hover: #0071e3;
       --radius: 12px;
     }
 
     * { margin: 0; padding: 0; box-sizing: border-box; }
 
     body {
-      font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
       background: var(--bg);
       color: var(--text);
-      line-height: 1.6;
-      padding: 2rem 1rem;
+      line-height: 1.5;
+      -webkit-font-smoothing: antialiased;
     }
 
-    .container { max-width: 900px; margin: 0 auto; }
+    .container {
+      max-width: 960px;
+      margin: 0 auto;
+      padding: 3rem 1.5rem 2rem;
+    }
 
     header {
-      text-align: center;
-      padding: 2rem 0 3rem;
+      margin-bottom: 3rem;
+      padding-bottom: 1.5rem;
+      border-bottom: 1px solid var(--border);
     }
 
     header h1 {
       font-size: 2rem;
-      font-weight: 700;
-      color: var(--primary);
-      margin-bottom: 0.5rem;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 0.5rem;
+      font-weight: 600;
+      letter-spacing: -0.02em;
+      margin-bottom: 0.4rem;
     }
 
     header p {
-      color: var(--text-secondary);
-      font-size: 1.1rem;
+      color: var(--text-muted);
+      font-size: 1rem;
+    }
+
+    .section {
+      margin-bottom: 2.75rem;
     }
 
     .section-title {
-      font-size: 1.3rem;
+      font-size: 0.9rem;
       font-weight: 600;
-      color: var(--text);
-      margin: 2rem 0 1rem;
-      padding-bottom: 0.5rem;
-      border-bottom: 2px solid var(--primary);
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-    }
-
-    .section-title.files {
-      border-color: var(--files);
-      color: var(--files);
-    }
-
-    .section-title.chatbot {
-      border-color: var(--accent);
-      color: var(--accent);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--text-muted);
+      margin-bottom: 1.1rem;
     }
 
     .grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 1rem;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 0.85rem;
     }
 
-    .card {
-      background: var(--card-bg);
-      border-radius: var(--radius);
-      padding: 1.25rem 1.5rem;
-      box-shadow: var(--shadow);
-      transition: all 0.2s ease;
+    .item {
       display: flex;
       align-items: center;
-      gap: 1rem;
+      gap: 0.85rem;
+      padding: 1rem 1.15rem;
+      background: var(--card-bg);
+      border: 1.5px solid var(--border);
+      border-radius: var(--radius);
       text-decoration: none;
       color: var(--text);
-      border: 2px solid transparent;
+      box-shadow: 0 1px 2px rgba(0,0,0,0.04);
+      transition: all 0.18s ease;
     }
 
-    .card:hover {
-      transform: translateY(-3px);
-      box-shadow: var(--shadow-hover);
-      border-color: var(--primary);
+    .item:hover {
+      border-color: var(--border-hover);
+      transform: translateY(-2px);
+      box-shadow: 0 6px 16px rgba(0,113,227,0.12);
     }
 
-    .card.files {
-      border-left: 4px solid var(--files);
-    }
-
-    .card.files:hover {
-      border-color: var(--files);
-    }
-
-    .card.chatbot {
-      border-left: 4px solid var(--accent);
-    }
-
-    .card.chatbot:hover {
-      border-color: var(--accent);
-    }
-
-    .card-icon {
-      width: 48px;
-      height: 48px;
-      background: linear-gradient(135deg, var(--primary), var(--primary-dark));
-      border-radius: 10px;
+    .item-icon {
+      width: 40px;
+      height: 40px;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 1.4rem;
+      font-size: 1.15rem;
       flex-shrink: 0;
-      color: white;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 10px;
     }
 
-    .card.files .card-icon {
-      background: linear-gradient(135deg, var(--files), var(--files-dark));
+    .item-content {
+      flex: 1;
+      min-width: 0;
     }
 
-    .card.chatbot .card-icon {
-      background: linear-gradient(135deg, var(--accent), var(--accent-dark));
-    }
-
-    .card-content { flex: 1; min-width: 0; }
-
-    .card-title {
+    .item-title {
+      font-size: 1rem;
       font-weight: 600;
-      font-size: 1.1rem;
-      margin-bottom: 0.25rem;
+      margin-bottom: 0.15rem;
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
     }
 
-    .card-subtitle {
+    .item-subtitle {
       font-size: 0.875rem;
-      color: var(--text-secondary);
+      color: var(--text-muted);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
 
-    .card-arrow {
-      color: var(--primary);
-      font-size: 1.2rem;
-      opacity: 0.7;
-      transition: opacity 0.2s;
+    .item-arrow {
+      color: var(--text-muted);
+      font-size: 1rem;
+      flex-shrink: 0;
+      transition: transform 0.2s ease, color 0.2s ease;
     }
 
-    .card.files .card-arrow { color: var(--files); }
-    .card.chatbot .card-arrow { color: var(--accent); }
-    .card:hover .card-arrow { opacity: 1; }
+    .item:hover .item-arrow {
+      color: var(--accent-hover);
+      transform: translateX(4px);
+    }
 
     footer {
+      margin-top: 3rem;
+      padding-top: 1.5rem;
+      border-top: 1px solid var(--border);
       text-align: center;
-      padding: 2rem 0 1rem;
-      color: var(--text-secondary);
+      color: var(--text-muted);
       font-size: 0.9rem;
     }
 
-    footer a { color: var(--primary); text-decoration: none; }
-    footer a:hover { text-decoration: underline; }
+    footer a {
+      color: var(--text);
+      text-decoration: none;
+      border-bottom: 1px solid var(--border);
+    }
 
-    @media (max-width: 600px) {
+    footer a:hover {
+      color: var(--accent-hover);
+      border-color: var(--accent-hover);
+    }
+
+    @media (max-width: 640px) {
+      .container { padding: 2rem 1rem 1.5rem; }
       header h1 { font-size: 1.5rem; }
-      header p { font-size: 1rem; }
-      .card { padding: 1rem 1.25rem; }
-      .card-icon { width: 40px; height: 40px; font-size: 1.2rem; }
+      .grid { grid-template-columns: 1fr; }
+      .section { margin-bottom: 2.25rem; }
     }
   </style>
 </head>
 <body>
   <div class="container">
     <header>
-      <h1>LINK STEM - BBGTK DIY</h1>
-      <p>Klik kartu untuk membuka di tab baru</p>
+      <h1>LINK PEMBELAJARAN STEM</h1>
+      <p>BBGTK DIY</p>
     </header>
 
-    <!-- 📂 Files Section -->
-    <h2 class="section-title files">📂 Files</h2>
-    <div class="grid">
+    <!-- 📂 Files -->
+    <section class="section">
+      <h2 class="section-title">Files</h2>
+      <div class="grid">
+        <a href="v" target="_blank" rel="noopener noreferrer" class="item">
+          <div class="item-icon">📘</div>
+          <div class="item-content">
+            <div class="item-title">Panduan STEM</div>
+            <div class="item-subtitle">File Panduan STEM</div>
+          </div>
+          <span class="item-arrow">→</span>
+        </a>
 
-      
-      <a href="v" target="_blank" rel="noopener noreferrer" class="card files">
-        <div class="card-icon">📘</div>
-        <div class="card-content">
-          <div class="card-title">Panduan STEM</div>
-          <div class="card-subtitle">File Panduan STEM</div>
-        </div>
-        <span class="card-arrow">↗</span>
-      </a>
+        <a href="https://kurikulum.kemendikdasmen.go.id/file/panduan/dokumen/8.%20Final%20Panduan%20Mata%20Pelajaran%20IPA_16_sep_2025_revisi%203.pdf" target="_blank" rel="noopener noreferrer" class="item">
+          <div class="item-icon">📘</div>
+          <div class="item-content">
+            <div class="item-title">Panduan IPA SMP</div>
+            <div class="item-subtitle">File Panduan IPA SMP</div>
+          </div>
+          <span class="item-arrow">→</span>
+        </a>
 
-      <a href="https://kurikulum.kemendikdasmen.go.id/file/panduan/dokumen/8.%20Final%20Panduan%20Mata%20Pelajaran%20IPA_16_sep_2025_revisi%203.pdf" target="_blank" rel="noopener noreferrer" class="card files">
-        <div class="card-icon">📘</div>
-        <div class="card-content">
-          <div class="card-title">Panduan IPA SMP</div>
-          <div class="card-subtitle">File Panduan IPA SMP</div>
-        </div>
-        <span class="card-arrow">↗</span>
-      </a>
+        <a href="https://repositori.kemendikdasmen.go.id/33623/1/9.%20Final%20Panduan%20Mata%20Pelajaran%20Bilogi_18_Sep_2025_revisi%203.pdf" target="_blank" rel="noopener noreferrer" class="item">
+          <div class="item-icon">📗</div>
+          <div class="item-content">
+            <div class="item-title">Panduan SMA Biologi</div>
+            <div class="item-subtitle">File Panduan SMA-Biologi</div>
+          </div>
+          <span class="item-arrow">→</span>
+        </a>
 
-      <a href="https://repositori.kemendikdasmen.go.id/33623/1/9.%20Final%20Panduan%20Mata%20Pelajaran%20Bilogi_18_Sep_2025_revisi%203.pdf" target="_blank" rel="noopener noreferrer" class="card files">
-        <div class="card-icon">📗</div>
-        <div class="card-content">
-          <div class="card-title">Panduan SMA Biologi</div>
-          <div class="card-subtitle">File Panduan SMA-Biologi</div>
-        </div>
-        <span class="card-arrow">↗</span>
-      </a>
-      
-      <a href="https://drive.google.com/file/d/18ICFWFXgBSOrO0PhHMXKFVb3UYHDxWiu/view?usp=drive_link" target="_blank" rel="noopener noreferrer" class="card files">
-        <div class="card-icon">📗</div>
-        <div class="card-content">
-          <div class="card-title">Contoh Projek STEM</div>
-          <div class="card-subtitle">Contoh Projek STEM</div>
-        </div>
-        <span class="card-arrow">↗</span>
-      </a>
+        <a href="https://drive.google.com/file/d/18ICFWFXgBSOrO0PhHMXKFVb3UYHDxWiu/view?usp=drive_link" target="_blank" rel="noopener noreferrer" class="item">
+          <div class="item-icon">📗</div>
+          <div class="item-content">
+            <div class="item-title">Contoh Projek STEM</div>
+            <div class="item-subtitle">Contoh Projek STEM</div>
+          </div>
+          <span class="item-arrow">→</span>
+        </a>
+      </div>
+    </section>
 
-    </div>
+    <!-- 🤖 Chatbot -->
+    <section class="section">
+      <h2 class="section-title">Chatbot</h2>
+      <div class="grid">
+        <a href="https://gemini.google.com/gem/1uwIDaX-QITDcBix6WZguWasGs6LHZ-We?usp=sharing" target="_blank" rel="noopener noreferrer" class="item">
+          <div class="item-icon">💬</div>
+          <div class="item-content">
+            <div class="item-title">Chatbot STEM</div>
+            <div class="item-subtitle">Asisten AI untuk belajar STEM</div>
+          </div>
+          <span class="item-arrow">→</span>
+        </a>
+      </div>
+    </section>
 
-    <!-- 🔧 Arduino Simulator Section -->
-    <h2 class="section-title">🔧 Arduino Simulator</h2>
-    <div class="grid">
-      <a href="https://wokwi.com/projects/458251788683018241" target="_blank" rel="noopener noreferrer" class="card">
-        <div class="card-icon">💡</div>
-        <div class="card-content">
-          <div class="card-title">LED 1</div>
-          <div class="card-subtitle">Simulasi dasar LED</div>
-        </div>
-        <span class="card-arrow">↗</span>
-      </a>
+    <!-- 🔧 Arduino Simulator -->
+    <section class="section">
+      <h2 class="section-title">Arduino Simulator</h2>
+      <div class="grid">
+        <a href="https://wokwi.com/projects/458251788683018241" target="_blank" rel="noopener noreferrer" class="item">
+          <div class="item-icon">💡</div>
+          <div class="item-content">
+            <div class="item-title">LED 1</div>
+            <div class="item-subtitle">Simulasi dasar LED</div>
+          </div>
+          <span class="item-arrow">→</span>
+        </a>
 
-      <a href="https://wokwi.com/projects/458251481241525249" target="_blank" rel="noopener noreferrer" class="card">
-        <div class="card-icon">💡</div>
-        <div class="card-content">
-          <div class="card-title">LED 2</div>
-          <div class="card-subtitle">Simulasi LED variasi</div>
-        </div>
-        <span class="card-arrow">↗</span>
-      </a>
+        <a href="https://wokwi.com/projects/458251481241525249" target="_blank" rel="noopener noreferrer" class="item">
+          <div class="item-icon">💡</div>
+          <div class="item-content">
+            <div class="item-title">LED 2</div>
+            <div class="item-subtitle">Simulasi LED variasi</div>
+          </div>
+          <span class="item-arrow">→</span>
+        </a>
 
-      <a href="https://wokwi.com/projects/458265650566196225" target="_blank" rel="noopener noreferrer" class="card">
-        <div class="card-icon">🔊</div>
-        <div class="card-content">
-          <div class="card-title">Buzzer</div>
-          <div class="card-subtitle">Simulasi output suara</div>
-        </div>
-        <span class="card-arrow">↗</span>
-      </a>
+        <a href="https://wokwi.com/projects/458265650566196225" target="_blank" rel="noopener noreferrer" class="item">
+          <div class="item-icon">🔊</div>
+          <div class="item-content">
+            <div class="item-title">Buzzer</div>
+            <div class="item-subtitle">Simulasi output suara</div>
+          </div>
+          <span class="item-arrow">→</span>
+        </a>
 
-      <a href="https://wokwi.com/projects/457531792729369601" target="_blank" rel="noopener noreferrer" class="card">
-        <div class="card-icon">🔄</div>
-        <div class="card-content">
-          <div class="card-title">Servo</div>
-          <div class="card-subtitle">Kontrol sudut servo</div>
-        </div>
-        <span class="card-arrow">↗</span>
-      </a>
+        <a href="https://wokwi.com/projects/457531792729369601" target="_blank" rel="noopener noreferrer" class="item">
+          <div class="item-icon">🔄</div>
+          <div class="item-content">
+            <div class="item-title">Servo</div>
+            <div class="item-subtitle">Kontrol sudut servo</div>
+          </div>
+          <span class="item-arrow">→</span>
+        </a>
 
-      <a href="https://wokwi.com/projects/458265650566196225" target="_blank" rel="noopener noreferrer" class="card">
-        <div class="card-icon">🔘</div>
-        <div class="card-content">
-          <div class="card-title">Button LED</div>
-          <div class="card-subtitle">Input tombol → LED</div>
-        </div>
-        <span class="card-arrow">↗</span>
-      </a>
+        <a href="https://wokwi.com/projects/458265650566196225" target="_blank" rel="noopener noreferrer" class="item">
+          <div class="item-icon">🔘</div>
+          <div class="item-content">
+            <div class="item-title">Button LED</div>
+            <div class="item-subtitle">Input tombol → LED</div>
+          </div>
+          <span class="item-arrow">→</span>
+        </a>
 
-      <a href="https://wokwi.com/projects/458252449903643649" target="_blank" rel="noopener noreferrer" class="card">
-        <div class="card-icon">🔘</div>
-        <div class="card-content">
-          <div class="card-title">Button Servo</div>
-          <div class="card-subtitle">Input tombol → Servo</div>
-        </div>
-        <span class="card-arrow">↗</span>
-      </a>
+        <a href="https://wokwi.com/projects/458252449903643649" target="_blank" rel="noopener noreferrer" class="item">
+          <div class="item-icon">🔘</div>
+          <div class="item-content">
+            <div class="item-title">Button Servo</div>
+            <div class="item-subtitle">Input tombol → Servo</div>
+          </div>
+          <span class="item-arrow">→</span>
+        </a>
 
-      <a href="https://wokwi.com/projects/458251163627816961" target="_blank" rel="noopener noreferrer" class="card">
-        <div class="card-icon">☀️</div>
-        <div class="card-content">
-          <div class="card-title">LDR</div>
-          <div class="card-subtitle">Sensor cahaya</div>
-        </div>
-        <span class="card-arrow">↗</span>
-      </a>
+        <a href="https://wokwi.com/projects/458251163627816961" target="_blank" rel="noopener noreferrer" class="item">
+          <div class="item-icon">☀️</div>
+          <div class="item-content">
+            <div class="item-title">LDR</div>
+            <div class="item-subtitle">Sensor cahaya</div>
+          </div>
+          <span class="item-arrow">→</span>
+        </a>
 
-      <a href="https://wokwi.com/projects/457065244452964353" target="_blank" rel="noopener noreferrer" class="card">
-        <div class="card-icon">📏</div>
-        <div class="card-content">
-          <div class="card-title">Ultrasonik</div>
-          <div class="card-subtitle">Sensor jarak HC-SR04</div>
-        </div>
-        <span class="card-arrow">↗</span>
-      </a>
+        <a href="https://wokwi.com/projects/457065244452964353" target="_blank" rel="noopener noreferrer" class="item">
+          <div class="item-icon">📏</div>
+          <div class="item-content">
+            <div class="item-title">Ultrasonik</div>
+            <div class="item-subtitle">Sensor jarak HC-SR04</div>
+          </div>
+          <span class="item-arrow">→</span>
+        </a>
 
-      <a href="https://wokwi.com/projects/458254337888196609" target="_blank" rel="noopener noreferrer" class="card">
-        <div class="card-icon">🎚️</div>
-        <div class="card-content">
-          <div class="card-title">Potensio</div>
-          <div class="card-subtitle">Input analog variabel</div>
-        </div>
-        <span class="card-arrow">↗</span>
-      </a>
+        <a href="https://wokwi.com/projects/458254337888196609" target="_blank" rel="noopener noreferrer" class="item">
+          <div class="item-icon">🎚️</div>
+          <div class="item-content">
+            <div class="item-title">Potensio</div>
+            <div class="item-subtitle">Input analog variabel</div>
+          </div>
+          <span class="item-arrow">→</span>
+        </a>
 
-      <a href="https://wokwi.com/projects/457056527948025857" target="_blank" rel="noopener noreferrer" class="card">
-        <div class="card-icon">🎚️</div>
-        <div class="card-content">
-          <div class="card-title">Potensio-Servo</div>
-          <div class="card-subtitle">Potensio kontrol servo</div>
-        </div>
-        <span class="card-arrow">↗</span>
-      </a>
-    </div>
-
-    <!-- 🤖 Chatbot Section -->
-    <h2 class="section-title chatbot">🤖 Chatbot</h2>
-    <div class="grid">
-      <a href="https://gemini.google.com/gem/1uwIDaX-QITDcBix6WZguWasGs6LHZ-We?usp=sharing" target="_blank" rel="noopener noreferrer" class="card chatbot">
-        <div class="card-icon">💬</div>
-        <div class="card-content">
-          <div class="card-title">Chatbot STEM</div>
-          <div class="card-subtitle">Asisten AI untuk belajar STEM</div>
-        </div>
-        <span class="card-arrow">↗</span>
-      </a>
-    </div>
+        <a href="https://wokwi.com/projects/457056527948025857" target="_blank" rel="noopener noreferrer" class="item">
+          <div class="item-icon">🎚️</div>
+          <div class="item-content">
+            <div class="item-title">Potensio-Servo</div>
+            <div class="item-subtitle">Potensio kontrol servo</div>
+          </div>
+          <span class="item-arrow">→</span>
+        </a>
+      </div>
+    </section>
 
     <footer>
-      <p>Simulasi powered by <a href="https://wokwi.com" target="_blank" rel="noopener">Wokwi</a> • 
-      Chatbot powered by <a href="https://gemini.google.com" target="_blank" rel="noopener">Google Gemini</a> • 
-      Cocok untuk pembelajaran STEM & mikrokontroler</p>
+      <p>Simulasi oleh <a href="https://wokwi.com" target="_blank" rel="noopener">Wokwi</a> · Chatbot oleh <a href="https://gemini.google.com" target="_blank" rel="noopener">Google Gemini</a></p>
     </footer>
   </div>
-
-  <script>
-    // Efek ripple halus saat klik kartu
-    document.querySelectorAll('.card').forEach(card => {
-      card.addEventListener('click', function(e) {
-        this.style.transform = 'scale(0.98)';
-        setTimeout(() => { this.style.transform = ''; }, 150);
-      });
-    });
-  </script>
 </body>
 </html>
