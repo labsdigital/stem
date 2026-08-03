@@ -1,0 +1,592 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simulasi AI: Mesin Sortir Sampah Pintar</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@400;700&display=swap');
+
+        body {
+            font-family: 'Nunito', sans-serif;
+            background-color: #f0fdf4; /* Light green background */
+        }
+        h1, h2, h3, .btn-text {
+            font-family: 'Fredoka One', cursive;
+            letter-spacing: 1px;
+        }
+        
+        .item-card {
+            transition: transform 0.2s;
+            cursor: grab;
+        }
+        .item-card:hover {
+            transform: scale(1.1);
+        }
+        .item-card:active {
+            cursor: grabbing;
+        }
+        
+        /* Dropzone styling */
+        .dropzone {
+            border: 4px dashed #a7f3d0;
+            transition: background-color 0.3s, border-color 0.3s;
+        }
+        .dropzone.dragover {
+            background-color: #d1fae5;
+            border-color: #34d399;
+        }
+        
+        /* Robot eye animation */
+        .robot-eye {
+            animation: blink 4s infinite;
+        }
+        @keyframes blink {
+            0%, 4%, 100% { transform: scaleY(1); }
+            2% { transform: scaleY(0.1); }
+        }
+
+        /* Pulse animation for learning */
+        .learning-pulse {
+            animation: pulse 1s infinite;
+        }
+        @keyframes pulse {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.8; transform: scale(1.05); }
+        }
+        
+        /* Hide sections initially */
+        .hidden-section {
+            display: none;
+        }
+    </style>
+</head>
+<body class="text-gray-800">
+
+<div class="max-w-4xl mx-auto p-4 sm:p-6 lg:p-8">
+    
+    <!-- Header -->
+    <header class="text-center mb-8">
+        <h1 class="text-4xl md:text-5xl text-emerald-600 mb-2">🤖 Halo AI!</h1>
+        <p class="text-lg md:text-xl font-bold text-emerald-500">Mari ajari Robot AI memilah sampah!</p>
+    </header>
+
+    <!-- Progress Bar / Steps -->
+    <div class="flex justify-between items-center mb-8 bg-white p-4 rounded-2xl shadow-sm">
+        <div class="flex flex-col items-center flex-1" id="step-1-indicator">
+            <div class="w-10 h-10 rounded-full bg-emerald-500 text-white flex items-center justify-center font-bold text-xl mb-1 shadow-md">1</div>
+            <span class="text-xs sm:text-sm font-bold text-emerald-600 text-center">Kenalan</span>
+        </div>
+        <div class="h-1 bg-emerald-200 flex-1 mx-2 rounded"></div>
+        <div class="flex flex-col items-center flex-1 opacity-50 transition-opacity duration-300" id="step-2-indicator">
+            <div class="w-10 h-10 rounded-full bg-gray-300 text-gray-600 flex items-center justify-center font-bold text-xl mb-1 transition-colors duration-300">2</div>
+            <span class="text-xs sm:text-sm font-bold text-gray-500 text-center transition-colors duration-300">Latih AI</span>
+        </div>
+        <div class="h-1 bg-gray-200 flex-1 mx-2 rounded transition-colors duration-300" id="line-1-2"></div>
+        <div class="flex flex-col items-center flex-1 opacity-50 transition-opacity duration-300" id="step-3-indicator">
+            <div class="w-10 h-10 rounded-full bg-gray-300 text-gray-600 flex items-center justify-center font-bold text-xl mb-1 transition-colors duration-300">3</div>
+            <span class="text-xs sm:text-sm font-bold text-gray-500 text-center transition-colors duration-300">Uji AI</span>
+        </div>
+    </div>
+
+    <!-- TAHAP 1: PERKENALAN -->
+    <section id="section-intro" class="bg-white rounded-3xl p-6 md:p-8 shadow-lg border-4 border-emerald-100 text-center">
+        <div class="text-6xl mb-4">👋</div>
+        <h2 class="text-2xl text-emerald-700 mb-4">Apa itu AI?</h2>
+        <p class="text-lg mb-6 leading-relaxed">
+            AI (Kecerdasan Buatan) itu seperti bayi robot. <br>
+            Awalnya dia tidak tahu apa-apa. Tapi, kalau kita <strong>memberinya contoh (data)</strong>, dia bisa belajar menjadi pintar!
+        </p>
+        <div class="bg-emerald-50 rounded-2xl p-4 mb-6 inline-block">
+            <p class="font-bold text-emerald-800">Misi Kita Hari Ini:</p>
+            <p>Ajari Robot AI membedakan <strong>Sampah Daun 🍂</strong> dan <strong>Sampah Plastik 🥤</strong>.</p>
+        </div>
+        <br>
+        <button onclick="goToStep(2)" class="bg-emerald-500 hover:bg-emerald-600 text-white font-bold py-3 px-8 rounded-full shadow-lg transform transition hover:-translate-y-1 text-xl btn-text">
+            Mulai Belajar! 🚀
+        </button>
+    </section>
+
+    <!-- TAHAP 2: LATIH AI (TRAINING) -->
+    <section id="section-train" class="hidden-section bg-white rounded-3xl p-6 md:p-8 shadow-lg border-4 border-blue-100">
+        <div class="flex items-center justify-center mb-6">
+            <div class="text-5xl mr-4 relative">
+                🤖
+                <div class="absolute top-2 left-3 w-1.5 h-2 bg-blue-500 rounded-full robot-eye" id="robot-eye-left"></div>
+                <div class="absolute top-2 right-3 w-1.5 h-2 bg-blue-500 rounded-full robot-eye" id="robot-eye-right"></div>
+            </div>
+            <div>
+                <h2 class="text-2xl text-blue-700">Tahap Latihan</h2>
+                <p class="text-sm text-gray-600">Seret (drag) gambar ke tong sampah yang benar untuk mengajari AI.</p>
+            </div>
+        </div>
+
+        <!-- Robot "Brain" Memory -->
+        <div class="mb-6 p-4 bg-gray-50 rounded-xl border border-gray-200">
+            <h3 class="text-center text-gray-700 mb-2 text-sm">🧠 Memori AI:</h3>
+            <div class="flex justify-around items-center">
+                <div class="text-center">
+                    <span class="block text-2xl font-bold text-green-600" id="count-daun">0</span>
+                    <span class="text-xs font-bold text-green-800">Contoh Daun</span>
+                </div>
+                <div class="w-px h-8 bg-gray-300"></div>
+                <div class="text-center">
+                    <span class="block text-2xl font-bold text-blue-600" id="count-plastik">0</span>
+                    <span class="text-xs font-bold text-blue-800">Contoh Plastik</span>
+                </div>
+            </div>
+            <div class="mt-2 text-center text-xs text-gray-500" id="training-status">AI masih kosong. Ayo beri contoh!</div>
+        </div>
+
+        <!-- Data Area (Items to drag) -->
+        <div class="flex justify-center flex-wrap gap-4 mb-8 min-h-[80px]" id="data-container">
+            <!-- Items will be generated here by JS -->
+        </div>
+
+        <!-- Dropzones (Tong Sampah) -->
+        <div class="flex flex-col sm:flex-row justify-center gap-6 mb-8">
+            <!-- Tong Organik (Daun) -->
+            <div class="dropzone rounded-2xl p-6 text-center w-full sm:w-1/2 min-h-[150px] flex flex-col items-center justify-center bg-green-50 relative" id="bin-daun" data-type="daun">
+                <div class="text-4xl mb-2">🗑️</div>
+                <h3 class="text-green-700 text-lg">Tong Organik (Daun)</h3>
+                <p class="text-xs text-green-600">Taruh daun di sini</p>
+                <div class="absolute inset-0 border-4 border-green-400 rounded-2xl opacity-0 transition-opacity pointer-events-none" id="bin-daun-highlight"></div>
+            </div>
+
+            <!-- Tong Plastik -->
+            <div class="dropzone rounded-2xl p-6 text-center w-full sm:w-1/2 min-h-[150px] flex flex-col items-center justify-center bg-blue-50 relative" id="bin-plastik" data-type="plastik">
+                <div class="text-4xl mb-2">♻️</div>
+                <h3 class="text-blue-700 text-lg">Tong Plastik</h3>
+                <p class="text-xs text-blue-600">Taruh plastik di sini</p>
+                <div class="absolute inset-0 border-4 border-blue-400 rounded-2xl opacity-0 transition-opacity pointer-events-none" id="bin-plastik-highlight"></div>
+            </div>
+        </div>
+
+        <div class="text-center">
+            <button onclick="goToStep(3)" id="btn-next-test" class="hidden bg-blue-500 hover:bg-blue-600 text-white font-bold py-3 px-8 rounded-full shadow-lg transform transition hover:-translate-y-1 text-xl btn-text">
+                AI Sudah Pintar! Mari Kita Uji ➡️
+            </button>
+            <p id="msg-need-more" class="text-orange-500 font-bold animate-pulse">Berikan lebih banyak contoh agar AI pintar! (Minimal 3 per tong)</p>
+        </div>
+    </section>
+
+    <!-- TAHAP 3: UJI AI (TESTING) -->
+    <section id="section-test" class="hidden-section bg-white rounded-3xl p-6 md:p-8 shadow-lg border-4 border-purple-100">
+        <div class="flex items-center justify-center mb-6">
+            <div class="text-5xl mr-4 relative">
+                🤓
+            </div>
+            <div>
+                <h2 class="text-2xl text-purple-700">Tahap Ujian AI</h2>
+                <p class="text-sm text-gray-600">Mari lihat apakah AI bisa menebak benda baru ini!</p>
+            </div>
+        </div>
+
+        <div class="bg-purple-50 rounded-2xl p-6 text-center mb-8 relative">
+            <h3 class="text-lg font-bold text-purple-800 mb-4">Benda apa ini?</h3>
+            
+            <div id="test-item-container" class="h-32 flex items-center justify-center mb-6">
+                <!-- Test item appears here -->
+                <div id="test-item" class="text-7xl transition-transform transform hover:scale-110">❓</div>
+            </div>
+
+            <!-- AI Prediction Result Area -->
+            <div id="ai-thinking" class="hidden">
+                <p class="text-purple-600 font-bold mb-2 learning-pulse">AI sedang berpikir...</p>
+                <div class="text-3xl">🤔💭</div>
+            </div>
+
+            <div id="ai-result" class="hidden bg-white p-4 rounded-xl shadow-inner border-2 border-dashed border-purple-200 mt-4">
+                <p class="text-sm text-gray-500 mb-1">Tebakan AI:</p>
+                <p id="prediction-text" class="text-2xl font-bold mb-2">-</p>
+                <p id="prediction-reason" class="text-sm text-gray-600 italic">Karena mirip dengan contoh yang pernah diajarkan.</p>
+            </div>
+        </div>
+
+        <div class="flex justify-center gap-4">
+            <button onclick="testAI()" id="btn-ask-ai" class="bg-purple-500 hover:bg-purple-600 text-white font-bold py-3 px-6 rounded-full shadow-lg transform transition hover:-translate-y-1 text-lg btn-text">
+                Tanya AI! 🪄
+            </button>
+            <button onclick="nextTestItem()" id="btn-next-item" class="hidden bg-gray-500 hover:bg-gray-600 text-white font-bold py-3 px-6 rounded-full shadow-lg transform transition hover:-translate-y-1 text-lg btn-text">
+                Coba Benda Lain
+            </button>
+        </div>
+
+        <div class="mt-8 text-center">
+            <button onclick="resetApp()" class="text-gray-400 hover:text-gray-600 underline text-sm">
+                Mulai dari awal (Reset AI)
+            </button>
+        </div>
+    </section>
+
+</div>
+
+<script>
+    // State Aplikasi
+    const state = {
+        step: 1,
+        trainingData: {
+            daun: 0,
+            plastik: 0
+        },
+        itemsToTrain: [
+            { id: 'd1', type: 'daun', emoji: '🍂' },
+            { id: 'p1', type: 'plastik', emoji: '🥤' },
+            { id: 'd2', type: 'daun', emoji: '🍁' },
+            { id: 'p2', type: 'plastik', emoji: '🛍️' },
+            { id: 'd3', type: 'daun', emoji: '🌿' },
+            { id: 'p3', type: 'plastik', emoji: '🧴' },
+            { id: 'd4', type: 'daun', emoji: '🍀' },
+            { id: 'p4', type: 'plastik', emoji: '🥡' }
+        ],
+        testItems: [
+            { type: 'daun', emoji: '🥬', name: 'Sayur Sisa' },
+            { type: 'plastik', emoji: '🧊', name: 'Plastik Es' },
+            { type: 'daun', emoji: '🪴', name: 'Tanaman Mati' },
+            { type: 'plastik', emoji: '📦', name: 'Bungkus Paket (Plastik)' },
+            { type: 'unknown', emoji: '🍎', name: 'Apel (Sisa Makanan)' } // Tricky one!
+        ],
+        currentTestIndex: 0
+    };
+
+    const REQUIRED_TRAINING = 3; // Butuh minimal 3 data per kategori agar AI "pintar"
+
+    // DOM Elements
+    const sections = {
+        1: document.getElementById('section-intro'),
+        2: document.getElementById('section-train'),
+        3: document.getElementById('section-test')
+    };
+
+    function goToStep(stepNumber) {
+        // Hide all sections
+        Object.values(sections).forEach(sec => sec.classList.add('hidden-section'));
+        
+        // Show target section
+        sections[stepNumber].classList.remove('hidden-section');
+        
+        // Update Progress UI
+        updateProgressUI(stepNumber);
+
+        // Special init per step
+        if (stepNumber === 2 && state.step < 2) {
+            initTraining();
+        } else if (stepNumber === 3) {
+            initTesting();
+        }
+
+        state.step = stepNumber;
+    }
+
+    function updateProgressUI(step) {
+        const i1 = document.getElementById('step-1-indicator');
+        const i2 = document.getElementById('step-2-indicator');
+        const i3 = document.getElementById('step-3-indicator');
+        const l12 = document.getElementById('line-1-2');
+        const l23 = document.getElementById('step-3-indicator'); // using container for simplicity
+
+        // Reset all to gray first
+        [i2, i3].forEach(el => {
+            el.classList.add('opacity-50');
+            el.querySelector('div').classList.remove('bg-emerald-500', 'text-white', 'bg-blue-500', 'bg-purple-500');
+            el.querySelector('div').classList.add('bg-gray-300', 'text-gray-600');
+            el.querySelector('span').classList.remove('text-emerald-600', 'text-blue-600', 'text-purple-600');
+            el.querySelector('span').classList.add('text-gray-500');
+        });
+        l12.classList.remove('bg-emerald-400');
+        l12.classList.add('bg-gray-200');
+
+        // Step 2 Active
+        if (step >= 2) {
+            i2.classList.remove('opacity-50');
+            i2.querySelector('div').classList.replace('bg-gray-300', 'bg-blue-500');
+            i2.querySelector('div').classList.replace('text-gray-600', 'text-white');
+            i2.querySelector('span').classList.replace('text-gray-500', 'text-blue-600');
+            l12.classList.replace('bg-gray-200', 'bg-emerald-400');
+        }
+
+        // Step 3 Active
+        if (step === 3) {
+            i3.classList.remove('opacity-50');
+            i3.querySelector('div').classList.replace('bg-gray-300', 'bg-purple-500');
+            i3.querySelector('div').classList.replace('text-gray-600', 'text-white');
+            i3.querySelector('span').classList.replace('text-gray-500', 'text-purple-600');
+        }
+    }
+
+    function initTraining() {
+        const container = document.getElementById('data-container');
+        container.innerHTML = '';
+        
+        // Shuffle items (simple shuffle)
+        let shuffledItems = [...state.itemsToTrain].sort(() => 0.5 - Math.random());
+
+        shuffledItems.forEach(item => {
+            const el = document.createElement('div');
+            el.className = 'item-card text-5xl bg-white p-3 rounded-xl shadow-md border-2 border-gray-100 flex items-center justify-center';
+            el.innerHTML = item.emoji;
+            el.draggable = true;
+            el.id = item.id;
+            el.dataset.type = item.type;
+
+            // Setup Drag Events
+            el.addEventListener('dragstart', handleDragStart);
+            el.addEventListener('dragend', handleDragEnd);
+
+            // Add touch support (basic)
+            el.addEventListener('touchstart', handleTouchStart, {passive: false});
+            el.addEventListener('touchmove', handleTouchMove, {passive: false});
+            el.addEventListener('touchend', handleTouchEnd);
+
+            container.appendChild(el);
+        });
+
+        setupDropzones();
+        updateTrainingUI();
+    }
+
+    let draggedElement = null;
+    let touchTarget = null; // To store the dropzone under finger
+
+    function handleDragStart(e) {
+        draggedElement = this;
+        e.dataTransfer.effectAllowed = 'move';
+        // Need to set data for Firefox
+        e.dataTransfer.setData('text/plain', this.id);
+        setTimeout(() => this.classList.add('opacity-50'), 0);
+    }
+
+    function handleDragEnd(e) {
+        this.classList.remove('opacity-50');
+        draggedElement = null;
+        document.querySelectorAll('.dropzone').forEach(dz => dz.classList.remove('dragover'));
+    }
+
+    // Touch event handlers for mobile
+    function handleTouchStart(e) {
+        draggedElement = this;
+        this.style.position = 'absolute';
+        this.style.zIndex = 1000;
+        // initial center under finger
+        moveElementToTouch(e, this);
+        e.preventDefault(); // prevent scrolling
+    }
+
+    function handleTouchMove(e) {
+        if (!draggedElement) return;
+        e.preventDefault();
+        moveElementToTouch(e, draggedElement);
+
+        // Find element under touch
+        const touch = e.touches[0];
+        const elemUnder = document.elementFromPoint(touch.clientX, touch.clientY);
+        
+        // Manage dragover styles
+        document.querySelectorAll('.dropzone').forEach(dz => dz.classList.remove('dragover'));
+        const dz = elemUnder ? elemUnder.closest('.dropzone') : null;
+        if (dz) {
+            dz.classList.add('dragover');
+            touchTarget = dz;
+        } else {
+            touchTarget = null;
+        }
+    }
+
+    function moveElementToTouch(e, el) {
+        const touch = e.touches[0];
+        const rect = el.getBoundingClientRect();
+        // Adjust to center on finger
+        el.style.left = touch.clientX - (rect.width / 2) + 'px';
+        el.style.top = touch.clientY - (rect.height / 2) + 'px';
+    }
+
+    function handleTouchEnd(e) {
+        if (!draggedElement) return;
+        e.preventDefault();
+        
+        draggedElement.style.position = 'static';
+        draggedElement.style.zIndex = 'auto';
+        document.querySelectorAll('.dropzone').forEach(dz => dz.classList.remove('dragover'));
+
+        if (touchTarget) {
+            processDrop(touchTarget, draggedElement);
+        }
+
+        draggedElement = null;
+        touchTarget = null;
+    }
+
+
+    function setupDropzones() {
+        const dropzones = document.querySelectorAll('.dropzone');
+        dropzones.forEach(dz => {
+            dz.addEventListener('dragover', e => {
+                e.preventDefault(); // Necessary to allow dropping
+                dz.classList.add('dragover');
+            });
+            dz.addEventListener('dragleave', e => {
+                dz.classList.remove('dragover');
+            });
+            dz.addEventListener('drop', e => {
+                e.preventDefault();
+                dz.classList.remove('dragover');
+                if (draggedElement) {
+                   processDrop(dz, draggedElement);
+                }
+            });
+        });
+    }
+
+    function processDrop(dropzone, itemEl) {
+        const targetType = dropzone.dataset.type;
+        const itemType = itemEl.dataset.type;
+
+        // Visual feedback based on correctness (AI supervision)
+        const isCorrect = targetType === itemType;
+
+        if (isCorrect) {
+            // Berhasil, AI belajar!
+            itemEl.parentNode.removeChild(itemEl); // Remove from pool
+            
+            // Increment data
+            state.trainingData[itemType]++;
+            
+            // Visual feedback on dropzone
+            const highlight = document.getElementById(`bin-${targetType}-highlight`);
+            highlight.classList.remove('opacity-0');
+            setTimeout(() => highlight.classList.add('opacity-0'), 500);
+
+            // Change robot eye color briefly to green
+            const eyes = document.querySelectorAll('.robot-eye');
+            eyes.forEach(eye => {
+                eye.classList.remove('bg-blue-500');
+                eye.classList.add('bg-green-500');
+                setTimeout(() => {
+                    eye.classList.remove('bg-green-500');
+                    eye.classList.add('bg-blue-500');
+                }, 1000);
+            });
+
+            updateTrainingUI();
+        } else {
+            // Salah masukin
+            itemEl.style.transform = 'translateX(-10px)';
+            setTimeout(() => itemEl.style.transform = 'translateX(10px)', 100);
+            setTimeout(() => itemEl.style.transform = 'translateX(0)', 200);
+            
+            // Change robot eye color briefly to red
+            const eyes = document.querySelectorAll('.robot-eye');
+            eyes.forEach(eye => {
+                eye.classList.remove('bg-blue-500');
+                eye.classList.add('bg-red-500');
+                setTimeout(() => {
+                    eye.classList.remove('bg-red-500');
+                    eye.classList.add('bg-blue-500');
+                }, 1000);
+            });
+        }
+    }
+
+    function updateTrainingUI() {
+        document.getElementById('count-daun').innerText = state.trainingData.daun;
+        document.getElementById('count-plastik').innerText = state.trainingData.plastik;
+
+        const totalData = state.trainingData.daun + state.trainingData.plastik;
+        const statusEl = document.getElementById('training-status');
+        
+        if (totalData === 0) {
+            statusEl.innerText = "AI masih kosong. Ayo beri contoh!";
+        } else if (state.trainingData.daun >= REQUIRED_TRAINING && state.trainingData.plastik >= REQUIRED_TRAINING) {
+            statusEl.innerHTML = "<span class='text-green-600 font-bold'>🧠 AI sudah siap dan pintar!</span>";
+            document.getElementById('btn-next-test').classList.remove('hidden');
+            document.getElementById('msg-need-more').classList.add('hidden');
+        } else {
+            statusEl.innerText = "AI sedang belajar menyerap data...";
+            document.getElementById('btn-next-test').classList.add('hidden');
+            document.getElementById('msg-need-more').classList.remove('hidden');
+        }
+    }
+
+    function initTesting() {
+        state.currentTestIndex = 0;
+        showTestItem();
+    }
+
+    function showTestItem() {
+        const item = state.testItems[state.currentTestIndex];
+        const display = document.getElementById('test-item');
+        display.innerText = item.emoji;
+        
+        // Reset UI
+        document.getElementById('ai-thinking').classList.add('hidden');
+        document.getElementById('ai-result').classList.add('hidden');
+        document.getElementById('btn-ask-ai').classList.remove('hidden');
+        document.getElementById('btn-next-item').classList.add('hidden');
+    }
+
+    function testAI() {
+        const item = state.testItems[state.currentTestIndex];
+        
+        // Hide button, show thinking
+        document.getElementById('btn-ask-ai').classList.add('hidden');
+        document.getElementById('ai-thinking').classList.remove('hidden');
+
+        // Simulate AI "Thinking" time based on data
+        setTimeout(() => {
+            document.getElementById('ai-thinking').classList.add('hidden');
+            showResult(item);
+        }, 1500);
+    }
+
+    function showResult(item) {
+        const resultContainer = document.getElementById('ai-result');
+        const predText = document.getElementById('prediction-text');
+        const predReason = document.getElementById('prediction-reason');
+
+        resultContainer.classList.remove('hidden');
+        document.getElementById('btn-next-item').classList.remove('hidden');
+
+        // Simple "AI" Logic: If type matches training, it knows.
+        // If 'unknown' or not enough data (shouldn't happen due to gate), it guesses or gets confused.
+        
+        if (item.type === 'daun' && state.trainingData.daun >= REQUIRED_TRAINING) {
+            predText.innerHTML = "Itu <span class='text-green-600'>Sampah Organik (Daun)</span>! 🍂";
+            predReason.innerText = "AI melihat pola warna, bentuk, dan belajar dari tong warna hijau.";
+            resultContainer.className = "bg-green-50 p-4 rounded-xl shadow-inner border-2 border-green-200 mt-4 block";
+        } 
+        else if (item.type === 'plastik' && state.trainingData.plastik >= REQUIRED_TRAINING) {
+            predText.innerHTML = "Itu <span class='text-blue-600'>Sampah Plastik</span>! ♻️";
+            predReason.innerText = "AI mengenali bentuk kemasan dan belajar dari tong warna biru.";
+            resultContainer.className = "bg-blue-50 p-4 rounded-xl shadow-inner border-2 border-blue-200 mt-4 block";
+        } 
+        else {
+            // Trick scenario (Apel) - AI generalizes wrongly or admits confusion
+            predText.innerHTML = "<span class='text-orange-500'>Hmm... Saya bingung!</span> 😵‍💫";
+            predReason.innerText = `Ini mirip ${item.name}, tapi saya belum pernah diajari secara pasti. Saya butuh data lebih banyak!`;
+            resultContainer.className = "bg-orange-50 p-4 rounded-xl shadow-inner border-2 border-orange-200 mt-4 block";
+        }
+    }
+
+    function nextTestItem() {
+        state.currentTestIndex++;
+        if (state.currentTestIndex >= state.testItems.length) {
+            // Loop back or show completion
+            alert("Wow! Kamu sudah menguji semua benda. Kamu hebat sudah mengajari AI!");
+            state.currentTestIndex = 0;
+        }
+        showTestItem();
+    }
+
+    function resetApp() {
+        state.step = 1;
+        state.trainingData = { daun: 0, plastik: 0 };
+        goToStep(1);
+    }
+
+    // Initialize
+    goToStep(1);
+
+</script>
+</body>
+</html>
